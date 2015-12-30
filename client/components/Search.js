@@ -47,7 +47,7 @@ let Search = compose(
       value={query}
       onSubmit={doSearch(query)}
       style={{
-        width: '100%',
+        width: '100%'
       }}
     />
 

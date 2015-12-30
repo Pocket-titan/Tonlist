@@ -7,6 +7,9 @@ export let TextInput = (props) =>
   <input
     {...props}
     type="text"
+    style={{backgroundColor:'#d3d0cb',
+    borderColor:'#d3d0cb',
+    color:'#787272'}}
     onChange={e => {
       props.onTextChange && props.onTextChange(e.target.value)
     }}

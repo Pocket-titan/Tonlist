@@ -89,6 +89,6 @@ body {
   color:#252323;
 }
 
-.vol {
-  color: #252323;
+::-webkit-input-placeholder {
+  color: #787272;
 }
