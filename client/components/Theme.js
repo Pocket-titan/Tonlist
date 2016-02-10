@@ -14,11 +14,11 @@ export default {
     accent1Color: Colors.pinkA200,
     accent2Color: Colors.grey100,
     accent3Color: "#49647d",
-    textColor: "#161f26",
+    textColor: "#131b21",
     alternateTextColor: Colors.white,
     canvasColor: Colors.white,
     borderColor: "#49647d",
-    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.3),
+    disabledColor: ColorManipulator.fade(Colors.darkBlack, 0.4),
     pickerHeaderColor: Colors.cyan500,
   }
 };
