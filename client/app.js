@@ -4,7 +4,7 @@ import {mapProps, compose, withState} from 'recompose'
 import {observeProps, createEventHandler} from 'rx-recompose'
 
 import 'bootstrap/dist/css/bootstrap.css'
-import header from './tonlist-volcano.png'
+import header from './tonlist-monochrome1.png'
 
 import {clickable, box, headerimage, listeners} from './style.css'
 
@@ -91,16 +91,18 @@ export default compose(
   return (
     <View className="container">
       <View className="row">
-        <View className="col-md-9">
-          <img src={header} className={headerimage}/>
+        <View className="col-md-6">
+          <View className={headerimage}>
+            <img src={header} className="img-responsive"/>
+          </View>
         </View>
-        <View className="col-md-3">
+        <View className="col-md-3 col-md-offset-3">
           <View className={listeners}>
           { audience &&
             <View className={box}>
               { audience === 1
                 ? `Je bent de enige luisteraar :')`
-                : `Er zijn ${audience} andere luisteraars!`
+                : `Er zijn ${audience - 1} andere luisteraars!`
               }
           </View>
           }
@@ -117,9 +119,11 @@ export default compose(
           <Track track={track} />
         </Box>
 
-        <Box className="col-md-3">
-          <Player time={time} URL={URL} />
-        </Box>
+        <View>
+          <Box className="col-md-3">
+            <Player time={time} URL={URL}/>
+          </Box>
+        </View>
       </View>
 
       <View className="row">
