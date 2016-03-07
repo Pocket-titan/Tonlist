@@ -12,7 +12,7 @@ var config = {
       {
         test: /\.jsx?$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel?presets[]=react,presets[]=es2015'
+        loader: 'babel?presets[]=react,presets[]=es2015,presets[]=stage-2'
       },
       { test: /\.css$/, loader: "style-loader!css-loader" },
       {
@@ -20,6 +20,12 @@ var config = {
         loaders: [
           'file?hash=sha512&digest=hex&name=[hash].[ext]',
           'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
+        ]
+      },
+      {
+        test: /\.(woff2?|ttf|eot)$/i,
+        loaders: [
+          'file?hash=sha512&digest=hex&name=[hash].[ext]',
         ]
       }
     ]

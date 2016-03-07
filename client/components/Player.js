@@ -1,44 +1,62 @@
 import React from 'react'
-import {compose, withState, mapProps} from 'recompose'
+import {Slider} from 'material-ui'
+import {compose, withState} from 'recompose'
+import {Audio, View} from '../components'
+import ThemeManager from 'material-ui/lib/styles/theme-manager';
+import MyRawTheme from '../components/Theme.js';
+import ThemeDecorator from 'material-ui/lib/styles/theme-decorator';
 
-import {clickable} from '../style.css'
-import {Audio, View, Text, TextInput} from '../components'
+// Make sure value is in between two given
+let bounds = (min, max, value) => {
+  return Math.min(max, Math.max(min, value))
+}
 
 let Player = compose(
-  withState('volume', 'setVolume', '10'),
+  // Get the theme (but this should go to app.js)
+  ThemeDecorator(ThemeManager.getMuiTheme(MyRawTheme))
+,
+  // Make state to get value
+  withState('volume', 'setVolume', 0.2)
+,
+  // errorTag to refresh on error
   withState('errorTag', 'setError', 0)
 )(({volume, setVolume, time, URL, setError, errorTag}) => {
-  let volumeFix = volume.replace(/,/g, '.')
-
-  let numberVolume =
-    Number.isNaN(Number(volumeFix))
-    ? 0 : Number(volumeFix) / 100
-
-  let setVolumeX = num => setVolume(String(num))
+  // Event to change volume on mouse wheel
+  let onWheel = e => {
+    e.preventDefault()
+    let {deltaY} = e
+    // Calculate volume change
+    let difference = -((deltaY > 0 ? 1 : -1) * 0.01)
+    // Make sure it is in bounds
+    let x = bounds(0, 1, volume + difference)
+    // Update it
+    setVolume(x)
+  }
 
   return (
-    <View>
+    <View onWheel={onWheel}>
       <Audio
-        volume={numberVolume}
+        // Need not explain
+        volume={volume}
+
+        // Set source to the url, the timestamp and maybe the error that may have occured
+        // (So it refreshes when an error occurs)
         src={`${URL}${time}${errorTag.toString()}.mp3`}
+
+        // Increase the errorTag, so it will refresh
         onError={() => setError(errorTag + 1)}
+
+        // Start playing on desktop
         autoPlay
       />
 
-      <TextInput
-        style={{width: 30}}
-        onTextChange={setVolume}
+      <Slider
+        // Keep value in sync with volume
         value={volume}
-      />%
+        onChange={(e, value) => setVolume(value)}
 
-      <View>
-        <View className={clickable} onClick={() => setVolumeX(Math.min(numberVolume*100 + 10, 100))}>
-          HARDER { numberVolume >= 1 && '(Nog harder heeft geen zin srry)'}
-        </View>
-        <View className={clickable} onClick={() => setVolumeX(Math.max(numberVolume*100 - 10, 0))}>
-          ZACHTER { numberVolume <= 0 && '(Hij is al op z\'n zachts)'}
-        </View>
-      </View>
+        style={{marginBottom: 24}}
+      />
     </View>
   )
 })
